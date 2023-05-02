@@ -1,0 +1,151 @@
+Table Name: aircraft_model;;;;;;
+Column Name;Data Type;Size;PK/FK;Constraints;Default Value;Description
+id_aircraft_model;INT;-;PK;NOT NULL, AUTO_INCREMENT;-;Unique identifier for each aircraft model.
+model;VARCHAR;50;-;NOT NULL;-;Name of the aircraft model.
+manufacturer;VARCHAR;50;-;NOT NULL;-;Name of the aircraft manufacturer.
+manufacturing_year;VARCHAR;50;-;-;-;Year the aircraft model was manufactured.
+aircraft_type;VARCHAR;50;-;NOT NULL;-;Type of aircraft model.
+passenger_capacity;VARCHAR;50;-;NOT NULL;-;Maximum number of passengers the aircraft model can carry.
+cargo_capacity;VARCHAR;50;-;NOT NULL;-;Maximum weight of cargo the aircraft model can carry.
+range;VARCHAR;50;-;NOT NULL;-;Maximum distance the aircraft model can travel on a single fuel tank.
+maximum_speed;VARCHAR;50;-;NOT NULL;-;Maximum speed the aircraft model can achieve.
+service_ceiling;VARCHAR;50;-;NOT NULL;-;Maximum altitude the aircraft model can reach.
+engine_type;VARCHAR;50;-;NOT NULL;-;Type of engine used in the aircraft model.
+number_of_engines;INT;-;-;NOT NULL;-;Number of engines used in the aircraft model.
+maximum_takeoff_weight;VARCHAR;50;-;NOT NULL;-;Maximum weight at which the aircraft model can take off.
+fuel_system;VARCHAR;50;-;NOT NULL;-;Type of fuel system used in the aircraft model.
+electrical_system;VARCHAR;50;-;NOT NULL;-;Type of electrical system used in the aircraft model.
+hydraulic_system;VARCHAR;50;-;NOT NULL;-;Type of hydraulic system used in the aircraft model.
+landing_gear;VARCHAR;50;-;NOT NULL;-;Type of landing gear used in the aircraft model.
+avionics_system;VARCHAR;50;-;NOT NULL;-;Type of avionics system used in the aircraft model.
+certifications;TEXT;-;-;-;-;Certifications held by the aircraft model.
+documentation;TEXT;-;-;-;-;Documentation related to the aircraft model.
+current_market_value;DECIMAL;20,2;-;-;-;Current market value of the aircraft model.
+sales_price_history;TEXT;-;-;-;-;Historical sales prices of the aircraft model.
+insurance_value;DECIMAL;10,2;-;-;-;Value of insurance coverage for the aircraft model.
+leasing_history;TEXT;-;-;-;-;Historical leasing agreements for the aircraft model.
+image;TEXT;-;-;-;-;Image of the aircraft model.
+;;;;;;
+;;;;;;
+Table Name: aircraft;;;;;;
+Column Name;Data Type;Size;PK/FK;Constraints;Default Value;Description
+id_aircraft;INT;-;PK;NOT NULL, AUTO_INCREMENT;-;Unique identifier for each aircraft
+model_id;INT;-;FK;NOT NULL;-;Foreign key referencing the aircraft model
+registration;VARCHAR;10;-;NOT NULL;-;Aircraft registration number
+serial_number;VARCHAR;50;-;NOT NULL;-;Unique serial number assigned to the aircraft
+flight_hours;INT;-;-;NOT NULL;-;Total hours flown by the aircraft
+landing_takeoff_cycles;INT;-;-;NOT NULL;-;Number of landing and takeoff cycles completed by the aircraft
+routes_flown;TEXT;-;-;-;-;List of routes flown by the aircraft
+flight_logs;TEXT;-;-;-;-;Detailed record of all flights made by the aircraft
+current_owner;VARCHAR;50;-;-;-;Name of the current owner of the aircraft
+owner_history;TEXT;-;-;-;-;List of all previous owners of the aircraft
+notes;TEXT;-;-;-;-;Additional notes about the aircraft
+;;;;;;
+;;;;;;
+Table Name: part_categories;;;;;;
+Column Name;Data Type;Size;PK/FK;Constraints;Default Value;Description
+id_part_categories;INT;-;PK;NOT NULL, AUTO_INCREMENT;-;Unique identifier for each part category
+category;VARCHAR;255;-;NOT NULL;-;Name of the part category
+description;VARCHAR;255;-;-;-;Description of the part category
+;;;;;;
+;;;;;;
+Table Name: parts;;;;;;
+Column Name;Data Type;Size;PK/FK;Constraints;Default Value;Description
+id_parts;INT;-;PK;NOT NULL, AUTO_INCREMENT;-;Unique identifier for each part
+category_id;INT;-;FK;-;-;Foreign key referencing the category the part belongs to
+name;VARCHAR;255;-;-;-;Name of the part
+part_number;VARCHAR;255;-;-;-;Part number of the part
+serial_number;VARCHAR;255;-;-;-;Serial number of the part
+description;TEXT;-;-;-;-;Description of the part
+entry_date;DATE;-;-;-;-;Date the part was added to inventory
+price;DECIMAL;10,2;-;-;-;Price of the part
+supplier;VARCHAR;255;-;-;-;Supplier of the part
+condition;VARCHAR;255;-;-;-;Condition of the part
+quantity;INT;-;-;-;-;Quantity of the part in inventory
+;;;;;;
+;;;;;;
+Table Name: stock_location;;;;;;
+Column Name;Data Type;Size;PK/FK;Constraints;Default Value;Description
+id_stock_location;INT;;PK;NOT NULL, AUTO_INCREMENT;;Unique identifier for a stock location.
+part_id;INT;;FK;;;The ID of the part being stored.
+shelf_id;INT;;FK;;;The ID of the shelf the part is stored on.
+corridor;VARCHAR(255);255;;;;The corridor location in the warehouse.
+height;VARCHAR(255);255;;;;The height location in the warehouse.
+;;;;;;
+;;;;;;
+Table Name: person;;;;;;
+Column Name;Data Type;Size;PK or FK;Constraints;Default Value;Description
+id_person;INT;;PK;NOT NULL;AUTO_INCREMENT;Unique identifier for each person
+name;VARCHAR;255;;NOT NULL;;Full name of the person
+email;VARCHAR;255;;NOT NULL;;Email address of the person
+phone;VARCHAR;255;;NOT NULL;;Phone number of the person
+address;VARCHAR;255;;;;Home address of the person
+date_of_birth;DATE;;;;;Date of birth of the person
+gender;VARCHAR;50;;;;Gender of the person (e.g. male, female, nonbinary)
+cpf;VARCHAR;14;;;;Brazilian individual taxpayer registry identification number
+;;;;;;
+;;;;;;
+Table Name: position;;;;;;
+Column;Data Type;Size;PK/FK;Constraints;Default Value;Description
+id_position;INT;;PK;;AUTO_INCREMENT;Unique identifier of the position
+name;VARCHAR(255);;;NOT NULL;;Name of the position
+description;VARCHAR(255);;;;;Description of the position
+;;;;;;
+;;;;;;
+Table Name: external_employee;;;;;;
+Column Name;Data Type;Size;PK/FK;Constraints;Default Value;Description
+id_employee;INT;-;PK;NOT NULL, AUTO_INCREMENT;-;Unique identifier for each employee
+id_person;INT;-;FK;NOT NULL;-;Foreign key to the person table
+id_job;INT;-;FK;NOT NULL;-;Foreign key to the job table
+employee_email;VARCHAR;255;-;NOT NULL;-;Email address of the employee
+password;VARCHAR;255;-;NOT NULL;-;Password of the employee's account
+;;;;;;
+;;;;;;
+Table Name: external_employee;;;;;;
+Column name;Data type;Size;PK/FK;Constraints;Default value;Description
+id_external_employee;INT;Not null;PK;;;Unique identifier of the employee
+id_person;INT;;FK;;;Foreign key to the person table
+id_job_title;INT;;FK;;;Foreign key to the job_title table
+email;VARCHAR(255);Not null;;;;Email address of the employee
+password;VARCHAR(255);Not null;;;;Password of the employee
+external_company;VARCHAR(255);Not null;;;;Name of the external company
+;;;;;;
+;;;;;;
+ Table Name: accesses ;;;;;;
+Column;Data Type;Size;PK/FK;Constraints;Default Value;Description
+id_accesses;INT;-;PK;NOT NULL, AUTO_INCREMENT;-;Unique identifier for the access control.
+id_position;INT;-;FK;-;-;Foreign key referencing the id_cargo column in the cargo table.
+name;VARCHAR;255;-;NOT NULL;-;The name of the access control.
+description;VARCHAR;255;-;-;-;A brief description of the access control.
+;;;;;;
+;;;;;;
+ Table Name: tasks ;;;;;;
+Column Name;Data Type;Size;PK or FK;Constraints;Default Value;Description
+id_tasks;INT;;PK;NOT NULL;AUTO_INCREMENT;ID of the task
+id_task_template;INT;;FK;;;ID of the task template
+creation_date;DATE;;;NOT NULL;;Date when the task was created
+completion_date;DATE;;;;;Date when the task was completed
+status;ENUM;;;NOT NULL;;Status of the task
+responsible_id;INT;;FK;;;ID of the employee responsible for the task
+additional_parts;INT;;FK;;;ID of additional parts used for the task
+;;;;;;
+;;;;;;
+ Table Name: task_template  ;;;;;;
+Column;Data Type;Size;PK/FK;Constraints;Default Value;Description
+id_task_template ;INT;-;PK;NOT NULL, AUTO_INCREMENT;-;Unique identifier for the task model.
+title ;VARCHAR(255);255;-;NOT NULL;-;The title of the task model.
+description ;TEXT;-;-;-;-;A detailed description of the task model.
+part_id ;INT;-;FK;-;-;Foreign key referencing the id_pecas column in the pecas table.
+;;;;;;
+;;;;;;
+ Table Name: task_template  ;;;;;;
+Column;Data Type;Size;PK/FK;Constraints;Default Value;Description
+id_work_order ;INT;-;PK;NOT NULL, AUTO_INCREMENT;-;Unique identifier for the service order.
+title ;VARCHAR(255);255;-;NOT NULL;-;The title of the service order.
+description ;TEXT;-;-;-;-;A detailed description of the service order.
+start_date;DATE;-;-;NOT NULL;-;The start date of the service order.
+end_date ;DATE;-;-;-;-;The end date of the service order.
+status;ENUM;-;-;NOT NULL;-;The status of the service order, with possible values of 'to do', 'open', 'in progress', 'overdue', and 'completed'.
+aircraft_id ;INT;-;FK;NOT NULL;-;Foreign key referencing the id_aeronaves column in the aeronaves table.
+responsible_id ;INT;-;FK;NOT NULL;-;Foreign key referencing the id_funcionarios column in the funcionarios table.
+task_ids ;VARCHAR(255);255;-;-;-;A string of task IDs associated with the service order.
