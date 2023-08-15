@@ -1,0 +1,25 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+  runs-on: ubuntu-latest
+
+  steps:
+  - uses: actions/checkout@v2
+
+  - name: Install dbdocs
+    run: sudo npm install -g dbdocs
+
+  - name: Check dbdocs
+    run: dbdocs
+
+  - name: Update dbdocs project
+    env:
+      DBDOCS_TOKEN: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjEyMjAsInRva2VuIjoiNmFlMWQ3Y2I5MjcxODc3ZGJhYmUxODkxZDVkY2EzNmEiLCJpYXQiOjE2OTIxMzE2MTF9.JleN5wu36HZ16FyaS4VPmGTICXU6kPzVDRg4GjlSpnU
+    run: dbdocs build ./data/airtech.dbml

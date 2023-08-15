@@ -1,0 +1,167 @@
+Project Airtech {
+  database_type: 'PostgreSQL'
+  Note: 'Welcome to the AirTech project! This is a system for commercial aircraft maintenance, enhanced with an autonomous cart that can transport parts to the maintenance area, all controlled through cloud computing.'
+}
+Enum "status_enum" {
+  "to do"
+  "in progress"
+  "done"
+  "canceled"
+}
+
+Enum "maintenance_enum" {
+  "corrective maintenance"
+  "preventive maintenance"
+  "predictive maintenance"
+  "emergency maintenance"
+}
+
+Ref:"management"."aircrafts"."aircraft_id" < "storage"."parts"."aircraft_id"
+
+Ref:"storage"."parts"."parts_id" < "storage"."serial_parts"."parts_id"
+
+Ref:"authorization"."profiles"."profile_id" < "authorization"."access_profiles"."profile_id"
+
+Ref:"authorization"."permissions"."permission_id" < "authorization"."access_profiles"."permission_id"
+
+Ref:"authorization"."access_profiles"."access_profiles_id" < "authorization"."access_user"."access_profiles_id"
+
+Ref:"authorization"."users"."user_id" < "authorization"."access_user"."user_id"
+
+Ref:"authorization"."users"."user_id" < "authorization"."api_token"."user_id"
+
+Ref:"authorization"."users"."user_id" < "management"."task"."user_id"
+
+Ref:"management"."aircrafts"."aircraft_id" < "management"."task"."aircraft_id"
+
+Ref:"management"."aircrafts_model"."aircraft_model_id" < "management"."aircrafts"."aircraft_model_id"
+
+Ref:"management"."aircrafts"."aircraft_id" < "management"."work_order"."aircraft_id"
+
+Ref:"management"."task"."task_id" < "storage"."parts_allocation"."task_id"
+
+Ref:"storage"."serial_parts"."serial_parts_id" < "storage"."parts_allocation"."serial_parts_id"
+
+Table "authorization"."profiles" {
+  "profile_id" SERIAL [pk, increment]
+  "profile_name" VARCHAR(100) [not null]
+}
+
+Table "authorization"."permissions" {
+  "permission_id" SERIAL [pk, increment]
+  "permission_name" VARCHAR(100) [not null]
+}
+
+Table "authorization"."access_profiles" {
+  "access_profiles_id" SERIAL [pk, increment]
+  "profile_id" INT
+  "permission_id" INT
+  "access_profiles_name" VARCHAR(100)
+  "access_profiles_description" VARCHAR(150)
+  "access_profile_group_name" VARCHAR(100)
+}
+
+Table "authorization"."access_user" {
+  "access_user_id" SERIAL [pk, increment]
+  "user_id" INT
+  "access_profiles_id" INT
+  "created_at" timestamp [default: `CURRENT_TIMESTAMP`]
+}
+
+Table "authorization"."api_token" {
+  "token" VARCHAR(255)
+  "user_id" INT
+  "username" VARCHAR(100)
+  "email" VARCHAR(100)
+}
+
+Table "authorization"."users" {
+  "user_id" SERIAL [pk, increment]
+  "username" VARCHAR(100) [not null]
+  "email" VARCHAR(100) [not null]
+  "password_hash" VARCHAR(100) [not null]
+  "full_name" VARCHAR(200)
+  "date_of_birth" DATE
+  "registration_date" timestamp [default: `CURRENT_TIMESTAMP`]
+  "users_status" VARCHAR(20) [default: "active"]
+}
+
+Table "management"."task" {
+  "task_id" SERIAL [pk, increment]
+  "user_id" INT
+  "aircraft_id" INT
+  "creation_date" timestamp [default: `CURRENT_TIMESTAMP`]
+  "completion_date" DATE
+  "status" status_enum [default: "to do"]
+}
+
+Table "management"."aircrafts_model" {
+  "aircraft_model_id" SERIAL [pk, increment]
+  "model" VARCHAR(50) [not null]
+  "manufacturer" VARCHAR(50) [not null]
+  "manufacturing_year" VARCHAR(50) [not null]
+  "aircraft_type" VARCHAR(50) [not null]
+  "passenger_capacity" VARCHAR(50) [not null]
+  "cargo_capacity" VARCHAR(50) [not null]
+  "range" VARCHAR(50) [not null]
+  "maximum_speed" VARCHAR(50) [not null]
+  "service_ceiling" VARCHAR(50) [not null]
+  "engine_type" VARCHAR(50) [not null]
+  "number_of_engines" INT [not null]
+  "maximum_takeoff_weight" VARCHAR(50) [not null]
+  "fuel_system" VARCHAR(50) [not null]
+  "electrical_system" VARCHAR(50) [not null]
+  "hydraulic_system" VARCHAR(50) [not null]
+  "landing_gear" VARCHAR(50) [not null]
+  "avionics_system" VARCHAR(50) [not null]
+  "certifications" TEXT
+  "documentation" TEXT
+  "leasing_history" TEXT
+  "image" TEXT
+}
+
+Table "management"."aircrafts" {
+  "aircraft_id" SERIAL [pk, increment]
+  "aircraft_model_id" INT [not null]
+  "registration" VARCHAR(10) [not null]
+  "aircraft_serial_number" VARCHAR(50) [not null]
+  "aircraft_flight_hours" INT [not null]
+  "aircraft_landing_takeoff_cycles" INT [not null]
+  "aircraft_routes_flown" TEXT
+  "aircraft_flight_logs" TEXT
+  "aircraft_current_owner" VARCHAR(50)
+  "aircraft_owner_history" TEXT
+  "aircraft_notes" TEXT
+}
+
+Table "management"."work_order" {
+  "work_order_id" SERIAL [pk, increment]
+  "aircraft_id" INT [not null]
+  "title" VARCHAR(255) [not null]
+  "maintenance" maintenance_enum [not null]
+  "start_date" DATE [not null]
+  "end_date" DATE
+}
+
+Table "storage"."parts" {
+  "parts_id" SERIAL [pk, increment]
+  "parts_name" VARCHAR(100)
+  "parts_description" TEXT
+  "aircraft_id" INT
+  "price" "DECIMAL(10, 2)"
+  "supplier" VARCHAR(150)
+  "quantity" INT
+}
+
+Table "storage"."serial_parts" {
+  "serial_parts_id" SERIAL [pk, increment]
+  "parts_id" INT
+  "serial_number" VARCHAR(100)
+  "parts_weight" "DECIMAL(10, 2)"
+}
+
+Table "storage"."parts_allocation" {
+  "task_id" INT
+  "serial_parts_id" INT
+  "quantity" INT
+}
